@@ -1,46 +1,134 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BDStreamHub APK Download - Official Live TV Platform</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
         }
 
         body {
             background-color: #00e676; /* Cricfy Signature Green */
-            color: #0f172a;
+            color: #000000;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 15px;
         }
 
+        /* Header Styling */
+        header {
+            width: 100%;
+            background-color: #00b252;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title svg {
+            fill: #ffffff;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 3-Dot Menu */
+        .menu-container {
+            position: relative;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-btn svg {
+            fill: #ffffff;
+            width: 24px;
+            height: 24px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 35px;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 101;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+            color: #008736;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        /* Main Wrapper */
         .main-wrapper {
             width: 100%;
             max-width: 480px;
             text-align: center;
+            padding: 15px;
         }
 
         /* App Icon Styling */
         .app-icon-box {
             margin: 10px auto 15px;
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             background: #ffffff;
             border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
             overflow: hidden;
-            padding: 8px;
+            padding: 6px;
         }
 
         .app-icon-box img {
@@ -51,29 +139,40 @@
 
         /* Rating Section */
         .rating-container {
-            font-size: 19px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 700;
             color: #000000;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            flex-wrap: wrap;
         }
 
         .star-rating {
             color: #000000;
             font-size: 22px;
-            letter-spacing: 2px;
+            cursor: pointer;
+            user-select: none;
         }
 
-        /* Cricfy Exact Green Table Layout */
+        .rating-msg {
+            width: 100%;
+            font-size: 12px;
+            color: #004d1a;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* Cricfy Table Layout */
         .info-table {
             width: 100%;
             border-collapse: collapse;
             background-color: #00e676;
             border: 2px solid #00c853;
             margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .info-table tr {
@@ -85,10 +184,10 @@
         }
 
         .info-table td {
-            padding: 12px 10px;
+            padding: 11px 10px;
             border-right: 1px solid #00c853;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .info-table td:last-child {
@@ -111,15 +210,15 @@
         .download-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background-color: #008736;
             color: #ffffff;
             text-decoration: none;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 19px;
+            font-weight: 800;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-            transition: background 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            transition: all 0.2s ease;
             border: none;
             cursor: pointer;
             text-transform: uppercase;
@@ -129,9 +228,10 @@
         .download-btn:hover {
             background-color: #006629;
             transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(0,0,0,0.3);
         }
 
-        /* English Content Description Section */
+        /* Detailed English Content & Troubleshooting Guide */
         .article-section {
             background: #ffffff;
             border-radius: 12px;
@@ -141,16 +241,17 @@
             color: #1e293b;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             line-height: 1.7;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .article-section h2 {
-            font-size: 20px;
+            font-size: 19px;
             color: #008736;
-            margin-top: 20px;
+            margin-top: 22px;
             margin-bottom: 10px;
             border-bottom: 2px solid #00e676;
             padding-bottom: 5px;
+            font-weight: 700;
         }
 
         .article-section h2:first-child {
@@ -158,10 +259,11 @@
         }
 
         .article-section h3 {
-            font-size: 16px;
+            font-size: 15px;
             color: #005c23;
             margin-top: 15px;
             margin-bottom: 8px;
+            font-weight: 600;
         }
 
         .article-section p {
@@ -169,7 +271,7 @@
             color: #334155;
         }
 
-        .article-section ul {
+        .article-section ul, .article-section ol {
             margin-left: 20px;
             margin-bottom: 15px;
         }
@@ -177,9 +279,42 @@
         .article-section li {
             margin-bottom: 6px;
         }
+
+        .problem-box {
+            background-color: #fff1f2;
+            border-left: 4px solid #e11d48;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .problem-box h4 {
+            color: #be123c;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+
+<!-- Header with 3-Dot Menu -->
+<header>
+    <div class="header-title">
+        <svg viewBox="0 0 24 24"><path d="M21 6h-7.59l3.29-3.29L15.29 1.3 11.59 5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 13H5V8h16v11z"/></svg>
+        BDStreamHub
+    </div>
+    <div class="menu-container">
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#">Home</a>
+            <a href="#downloadBtn">Download APK</a>
+            <a href="#troubleshoot">Download Fix</a>
+            <a href="#about">About Us</a>
+        </div>
+    </div>
+</header>
 
 <div class="main-wrapper">
     <!-- App Logo -->
@@ -187,25 +322,28 @@
         <img src="https://i.postimg.cc/HnF6BxYS/ic-launcher-foreground.png" alt="BDStreamHub App Logo">
     </div>
 
-    <!-- Rating Section -->
+    <!-- Interactive Rating Section -->
     <div class="rating-container">
         Rating (<span id="ratingVal">4.8</span>) 
-        <span class="star-rating" id="starIcons">★ ★ ★ ★ ☆</span>
+        <div class="star-rating" id="starIcons">
+            <span onclick="submitRating(1)">★</span><span onclick="submitRating(2)">★</span><span onclick="submitRating(3)">★</span><span onclick="submitRating(4)">★</span><span onclick="submitRating(5)">★</span>
+        </div>
+        <div class="rating-msg" id="ratingMsg"></div>
     </div>
 
-    <!-- Dynamic Specs Table -->
+    <!-- Specs Table (Initial static data to avoid loading delay) -->
     <table class="info-table">
         <tr>
             <td>App Name</td>
-            <td id="appName">BDStreamHub</td>
+            <td>BDStreamHub</td>
         </tr>
         <tr>
             <td>APK Version</td>
-            <td id="apkVersion">Loading...</td>
+            <td id="apkVersion">v1.9</td>
         </tr>
         <tr>
             <td>App Size</td>
-            <td id="appSize">Loading...</td>
+            <td id="appSize">11.16 MB</td>
         </tr>
         <tr>
             <td>App Developer</td>
@@ -221,168 +359,212 @@
         </tr>
         <tr>
             <td>Software Category</td>
-            <td id="category">Live Sports & TV</td>
+            <td id="category">Live Tv</td>
         </tr>
         <tr>
             <td>Last Update</td>
-            <td id="lastUpdate">Loading...</td>
+            <td id="lastUpdate">Today</td>
+        </tr>
+        <tr>
+            <td>App Release Date</td>
+            <td id="releaseDate">15 Jan 2024</td>
         </tr>
         <tr>
             <td>MOD APK Features</td>
-            <td id="modFeatures">HD Streaming / No Ads</td>
+            <td id="modFeatures">HD Streaming, No Ads</td>
         </tr>
         <tr>
             <td>Today Downloads</td>
-            <td id="todayDownload">0</td>
+            <td id="todayDownload">120</td>
         </tr>
         <tr>
             <td>Total Downloads</td>
-            <td id="totalDownload">Loading...</td>
+            <td id="totalDownload">9.6k</td>
         </tr>
     </table>
 
     <!-- Direct Download Button -->
     <a href="#" id="downloadBtn" class="download-btn" target="_blank">Download BDStreamHub APK</a>
 
-    <!-- Extensive English Content Section -->
-    <div class="article-section">
-        <h2>About BDStreamHub Live TV Application</h2>
-        <p>BDStreamHub is a premiere live streaming Android application specifically tailored for entertainment lovers, cricket enthusiasts, and live television viewers. Designed with cutting-edge technology, BDStreamHub delivers seamless access to hundreds of high-definition satellite channels, high-octane sports events, breaking news networks, and local dramas straight to your mobile device anywhere, anytime.</p>
-        <p>In today's fast-paced mobile-first world, traditional cable TV connections are rapidly becoming obsolete. Smartphone users seek convenience, portability, and instant access to uninterrupted broadcasts. BDStreamHub bridges this gap by bundling global television channels into a ultra-lightweight, lightning-fast application.</p>
+    <!-- Extensive English Article & Troubleshooting Section -->
+    <div class="article-section" id="about">
+        <h2>About BDStreamHub Live Streaming Application</h2>
+        <p>BDStreamHub is a cutting-edge live streaming application designed specifically for sports enthusiasts, cricket fans, news junkies, and live TV viewers. Powered by high-speed server infrastructure and dynamic streaming algorithms, BDStreamHub provides instant access to hundreds of high-definition satellite TV channels directly from your Android phone or Smart TV.</p>
+        <p>In today's fast-moving digital world, traditional satellite and cable TV connections often lack mobility and accessibility. Smartphone users require on-the-go streaming capabilities without compromise. BDStreamHub closes this gap by providing high-definition live television streams in a single, lightweight, and intuitive package.</p>
 
-        <h2>Key Features & Highlights of BDStreamHub</h2>
-        <p>Why choose BDStreamHub over other IPTV and entertainment applications? Here are the defining features that make BDStreamHub the most preferred live television broadcast client:</p>
-        
-        <h3>1. High Definition Live Cricket & Sports Streaming</h3>
-        <p>Never miss a crucial ball, boundary, or penalty kick again. BDStreamHub brings dedicated servers for major cricket tournaments including the ICC World Cup, IPL, BPL, Asia Cup, T20 Leagues, bilateral series, Premier League football, and UEFA Champions League matches in crystal-clear 1080p and 720p resolution.</p>
-
-        <h3>2. Ultra-Fast & Buffer-Free Engine</h3>
-        <p>Equipped with low-latency adaptive bitrate technology, BDStreamHub dynamically adjusts video quality according to your current mobile connection speed. Whether you are connected to high-speed 5G Wi-Fi or traveling on a 3G/4G cellular network, video playback remains smooth without freezing or constant buffering.</p>
-
-        <h3>3. Extensive Channel Directory</h3>
-        <p>Explore over 150+ live channels spread across diverse categories including Sports, News, Entertainment, Infotainment, Kids, Movies, and Religious programming. All channels are periodically updated to guarantee 100% active streaming links.</p>
-
-        <h3>4. Clean, Intuitive User Interface</h3>
-        <p>BDStreamHub features a modern, minimal UI optimized for screen accessibility. Browse channels effortlessly with categorization, fast search, dark mode viewing, and single-click full-screen playback mode.</p>
-
-        <h3>5. In-Built External Player Support</h3>
-        <p>Prefer using your favorite video players? BDStreamHub seamlessly integrates with internal native players as well as popular third-party media players like MX Player, VLC for Android, and Web Video Caster.</p>
-
-        <h2>Detailed Channel Categories Available</h2>
+        <h2>Key Features & Technical Advantages</h2>
         <ul>
-            <li><strong>Sports Networks:</strong> Live Cricket, Football, Tennis, WWE, Formula 1, and Badminton streams.</li>
-            <li><strong>Entertainment Channels:</strong> Popular Bengali, Hindi, and English drama serials, reality TV shows, and award functions.</li>
-            <li><strong>24/7 Live News:</strong> Instant updates from leading national and international breaking news hubs.</li>
-            <li><strong>Movies & Cinema:</strong> Dedicated channels streaming non-stop Hollywood, Bollywood, and regional South Asian films.</li>
-            <li><strong>Kids & Cartoons:</strong> Educational and animated entertainment channels tailored for children.</li>
+            <li><strong>100+ High-Definition Live Channels:</strong> Access live cricket, world news, dramas, movies, and infotainment channels.</li>
+            <li><strong>Low Latency Playback Engine:</strong> Optimized video player buffers streaming data rapidly, minimizing delay during live sports events.</li>
+            <li><strong>Adaptive Bitrate Streaming:</strong> Stream effortlessly over 3G, 4G, 5G, or Wi-Fi connections with automated resolution adjustments.</li>
+            <li><strong>Zero Subscription Requirement:</strong> Enjoy 100% free streaming content without mandatory sign-ups or monthly service fees.</li>
+            <li><strong>Multi-Player Compatibility:</strong> Stream natively or launch external video players like MX Player and VLC Media Player.</li>
         </ul>
 
-        <h2>How to Download & Install BDStreamHub APK on Android?</h2>
-        <p>Installing BDStreamHub on your Android smartphone or Android Smart TV is quick and effortless. Follow these simple steps:</p>
-        <ol style="margin-left: 20px; margin-bottom: 15px;">
-            <li>Click on the green <strong>"Download BDStreamHub APK"</strong> button located at the top of this page.</li>
-            <li>Wait for the APK file download to complete on your device.</li>
-            <li>Open your Android device <strong>Settings</strong> &gt; <strong>Security</strong> (or Privacy).</li>
-            <li>Enable the toggle option for <strong>"Install Apps from Unknown Sources"</strong>.</li>
-            <li>Locate the downloaded <code>bdstreamhub.apk</code> file in your Downloads folder and tap <strong>Install</strong>.</li>
-            <li>Launch the app, select your desired channel, and start enjoying free live streams immediately!</li>
+        <h2 id="troubleshoot">How to Download & Fix Common APK Download Issues</h2>
+        <p>Encountering issues while downloading or installing BDStreamHub on your Android device? Follow this comprehensive troubleshooting guide to solve common download and installation errors:</p>
+
+        <div class="problem-box">
+            <h4>Issue 1: "App Not Installed" or "Parse Error"</h4>
+            <p><strong>Solution:</strong> Ensure your mobile device is running Android 5.0 or above. If an older version of BDStreamHub is installed on your phone, uninstall it completely before installing the new APK file.</p>
+        </div>
+
+        <div class="problem-box">
+            <h4>Issue 2: "Blocked by Play Protect" Alert</h4>
+            <p><strong>Solution:</strong> Because BDStreamHub is installed directly via APK outside the Google Play Store, Play Protect may display a precautionary warning. Click <em>"Details"</em> and then tap <em>"Install Anyway (Unsafe)"</em>. The APK file is 100% clean and virus-free.</p>
+        </div>
+
+        <div class="problem-box">
+            <h4>Issue 3: Download Link Fails or Freezes</h4>
+            <p><strong>Solution:</strong> Check your internet connection stability. If the green button does not start the download, long-press the <strong>"Download BDStreamHub APK"</strong> button, copy the URL link, and paste it directly into Google Chrome, Opera, or UC Browser.</p>
+        </div>
+
+        <h3>Step-by-Step Installation Instructions:</h3>
+        <ol>
+            <li>Tap the green <strong>"Download BDStreamHub APK"</strong> button at the top of this page.</li>
+            <li>Wait for the <code>bdstreamhub.apk</code> file to complete downloading.</li>
+            <li>Open your Android device <strong>Settings > Security</strong> (or App Permissions).</li>
+            <li>Enable the toggle for <strong>"Install Apps from Unknown Sources"</strong>.</li>
+            <li>Navigate to your device's <strong>Downloads</strong> folder and tap the APK file to initiate installation.</li>
+            <li>Launch BDStreamHub and enjoy seamless live sports and entertainment!</li>
         </ol>
-
-        <h2>Is BDStreamHub Safe to Use?</h2>
-        <p>Yes! Safety and user privacy are fundamental to our development team. BDStreamHub is thoroughly scanned with multiple antivirus software engines prior to every update deployment. The APK file contains zero malicious code, virus, malware, or intrusive adware payload. Furthermore, BDStreamHub does not require unnecessary phone permissions like location, contacts, or internal storage access.</p>
-
-        <h2>Final Verdict</h2>
-        <p>If you are looking for an all-in-one live streaming platform for live sports matches, international news coverage, and daily entertainment shows, BDStreamHub is the ultimate choice. Download the latest version today and elevate your mobile streaming experience completely free of charge!</p>
     </div>
 </div>
 
 <script>
-    // ⚠️ আপনার Google Apps Script এর Web App URL টি এখানে বসান
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2H_tDrikJrgJb2mMTKtcjNjgzzJNUgCyJZKMlg5FVnDbM6ckcX-sVwUHG3Cps9eR7gg/exec";
+    // ⚠️ আপনার Google Apps Script এর Web App URL টি এখানে দিন
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfehRQeUX6r0AESKHdCdsrjJagqGZGe_5bPh4aKkMge2qkRcRHCRce5pXAHWBMcqVpmA/exec";
 
-    // Formatter function for downloads (1k, 100k, 1M, 1B)
-    function formatDownloadCount(num) {
+    // Dynamic Download Count Formatter (120, 9.6k, 1M, 1B)
+    function formatCount(num) {
         num = Number(num) || 0;
-        if (num >= 1000000000) {
-            return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Billion';
-        }
-        if (num >= 1000000) {
-            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Million';
-        }
-        if (num >= 1000) {
-            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-        }
+        if (num >= 1000000000) return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Billion';
+        if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Million';
+        if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
         return num.toString();
     }
 
-    // Dynamic Star Rating Generator
-    function renderStars(rating) {
-        let starsHtml = '';
-        let roundRating = Math.round(rating);
-        for (let i = 1; i <= 5; i++) {
-            if (i <= roundRating) {
-                starsHtml += '★ ';
-            } else {
-                starsHtml += '☆ ';
-            }
+    // Auto Relative Date Calculator (Calculates Today, 1 Day Ago, etc.)
+    function timeAgo(dateString) {
+        if (!dateString) return "Today";
+        
+        const updateDate = new Date(dateString);
+        const today = new Date();
+        
+        if (isNaN(updateDate.getTime())) {
+            return dateString; // Return raw text if not YYYY-MM-DD
         }
-        return starsHtml.trim();
+
+        const diffTime = Math.abs(today - updateDate);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return "Today";
+        if (diffDays === 1) return "1 Day Ago";
+        if (diffDays < 30) return diffDays + " Days Ago";
+        if (diffDays < 365) {
+            const months = Math.floor(diffDays / 30);
+            return months === 1 ? "1 Month Ago" : months + " Months Ago";
+        }
+        const years = Math.floor(diffDays / 365);
+        return years === 1 ? "1 Year Ago" : years + " Years Ago";
     }
 
-    // Fetch live configurations from Google Sheet
+    // Toggle 3-Dot Menu
+    function toggleMenu() {
+        document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    // Close dropdown on outside click
+    window.onclick = function(event) {
+        if (!event.target.matches('.menu-btn') && !event.target.matches('.menu-btn svg') && !event.target.matches('.menu-btn path')) {
+            var dropdowns = document.getElementsByClassName("dropdown-menu");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // User Rating Submission
+    function submitRating(rating) {
+        if (localStorage.getItem("bdstreamhub_rated")) {
+            document.getElementById("ratingMsg").innerText = "You have already rated this app!";
+            return;
+        }
+
+        localStorage.setItem("bdstreamhub_rated", rating);
+        document.getElementById("ratingMsg").innerText = "Thanks for your rating!";
+        
+        if(SCRIPT_URL && !SCRIPT_URL.includes("YOUR_GOOGLE_APPS_SCRIPT")) {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "rate", rating: rating })
+            });
+        }
+    }
+
+    // Fetch Live Data from Google Sheet
     function fetchAppData() {
+        if(!SCRIPT_URL) return;
+
         fetch(SCRIPT_URL)
             .then(response => response.json())
             .then(data => {
-                if (data.app_name) document.getElementById("appName").innerText = data.app_name;
-                if (data.rating) {
-                    document.getElementById("ratingVal").innerText = data.rating;
-                    document.getElementById("starIcons").innerText = renderStars(data.rating);
-                }
+                if (data.base_rating) document.getElementById("ratingVal").innerText = data.base_rating;
                 if (data.version) document.getElementById("apkVersion").innerText = data.version;
                 if (data.size) document.getElementById("appSize").innerText = data.size;
                 if (data.developer) document.getElementById("appDeveloper").innerText = data.developer;
                 if (data.price) document.getElementById("pricing").innerText = data.price;
                 if (data.system_req) document.getElementById("sysReq").innerText = data.system_req;
                 if (data.category) document.getElementById("category").innerText = data.category;
-                if (data.last_update) document.getElementById("lastUpdate").innerText = data.last_update;
+                
+                // Relative time ago calculation
+                if (data.last_update) {
+                    document.getElementById("lastUpdate").innerText = timeAgo(data.last_update);
+                }
+                
+                if (data.release_date) document.getElementById("releaseDate").innerText = data.release_date;
                 if (data.mod_features) document.getElementById("modFeatures").innerText = data.mod_features;
                 
-                // Format downloads (Today & Total)
+                // Download count formatting
                 if (data.today_downloads !== undefined) {
                     window.rawToday = parseInt(data.today_downloads);
-                    document.getElementById("todayDownload").innerText = formatDownloadCount(window.rawToday);
+                    document.getElementById("todayDownload").innerText = formatCount(window.rawToday);
                 }
                 if (data.total_downloads !== undefined) {
                     window.rawTotal = parseInt(data.total_downloads);
-                    document.getElementById("totalDownload").innerText = formatDownloadCount(window.rawTotal);
+                    document.getElementById("totalDownload").innerText = formatCount(window.rawTotal);
                 }
 
-                // Set primary download link
+                // Set Primary Download Link
                 if (data.download_link) {
                     document.getElementById("downloadBtn").href = data.download_link;
                 }
             })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-            });
+            .catch(error => console.error("Data update error:", error));
     }
 
     window.onload = fetchAppData;
 
-    // Handle Download button click and update counters instantly
+    // Direct Download Click Counter Update
     document.getElementById("downloadBtn").addEventListener("click", function() {
-        fetch(SCRIPT_URL, { method: "POST" });
+        if(SCRIPT_URL){
+            fetch(SCRIPT_URL, { 
+                method: "POST", 
+                body: JSON.stringify({ action: "download" }) 
+            });
+        }
 
         if (window.rawToday !== undefined && window.rawTotal !== undefined) {
             window.rawToday += 1;
             window.rawTotal += 1;
-            
-            document.getElementById("todayDownload").innerText = formatDownloadCount(window.rawToday);
-            document.getElementById("totalDownload").innerText = formatDownloadCount(window.rawTotal);
+            document.getElementById("todayDownload").innerText = formatCount(window.rawToday);
+            document.getElementById("totalDownload").innerText = formatCount(window.rawTotal);
         }
     });
 </script>
 
 </body>
-</html>
+    </html>
