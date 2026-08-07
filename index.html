@@ -55,7 +55,9 @@
       border-radius: 22px;
       object-fit: cover;
       box-shadow: 0 8px 20px var(--primary-glow);
-      margin-bottom: 12px;
+      margin: 0 auto 12px auto;
+      display: block;
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
     .app-title {
@@ -154,7 +156,7 @@
       transform: scale(0.98);
     }
 
-    /* Static Content Sections */
+    /* Content Box */
     .content-box {
       background: var(--card-bg);
       border-radius: 16px;
@@ -198,7 +200,7 @@
     <!-- Header Section -->
     <div class="header-card">
       <img id="appLogo" src="" alt="App Logo" class="app-logo">
-      <h1 class="app-title" id="appName"></h1>
+      <h1 class="app-title" id="appName">BDStreamHub</h1>
       
       <!-- Interactive Rating System -->
       <div class="rating-container">
@@ -217,16 +219,16 @@
 
     <!-- Dynamic Info Table -->
     <table class="info-table">
-      <tr><td>App Name</td><td id="tbAppName"></td></tr>
-      <tr><td>APK Version</td><td id="tbAPKVersion"></td></tr>
-      <tr><td>App Size</td><td id="tbAppSize"></td></tr>
-      <tr><td>Developer</td><td id="tbDeveloper"></td></tr>
-      <tr><td>Pricing</td><td id="tbPricing"></td></tr>
-      <tr><td>Requirement</td><td id="tbRequirement"></td></tr>
-      <tr><td>Category</td><td id="tbCategory"></td></tr>
-      <tr><td>Release Date</td><td id="tbReleaseDate"></td></tr>
-      <tr><td>Last Update</td><td id="tbLastUpdate"></td></tr>
-      <tr><td>MOD Features</td><td id="tbMODFeatures"></td></tr>
+      <tr><td>App Name</td><td id="tbAppName">-</td></tr>
+      <tr><td>APK Version</td><td id="tbAPKVersion">-</td></tr>
+      <tr><td>App Size</td><td id="tbAppSize">-</td></tr>
+      <tr><td>Developer</td><td id="tbDeveloper">-</td></tr>
+      <tr><td>Pricing</td><td id="tbPricing">-</td></tr>
+      <tr><td>Requirement</td><td id="tbRequirement">-</td></tr>
+      <tr><td>Category</td><td id="tbCategory">-</td></tr>
+      <tr><td>Release Date</td><td id="tbReleaseDate">-</td></tr>
+      <tr><td>Last Update</td><td id="tbLastUpdate">-</td></tr>
+      <tr><td>MOD Features</td><td id="tbMODFeatures">-</td></tr>
       <tr><td>Today Downloads</td><td id="tbTodayDownloads">0</td></tr>
       <tr><td>Total Downloads</td><td id="tbTotalDownloads">0</td></tr>
     </table>
@@ -234,7 +236,7 @@
     <!-- What's New Section -->
     <div class="content-box">
       <h2>What's New</h2>
-      <div id="whatsNewContent" style="font-size: 0.92rem; color: #d1d5db;"></div>
+      <div id="whatsNewContent" style="font-size: 0.92rem; color: #d1d5db;">Loading...</div>
     </div>
 
     <!-- Download CTA -->
@@ -291,13 +293,13 @@
       <h2>Developer Information</h2>
       <p><strong>Developer:</strong> BDS TEAM</p>
       <p><strong>Address:</strong> Bogura, Bangladesh</p>
-      <p><strong>Contact:</strong> bdsteam@gmail.com</p>
+      <p><strong>Contact:</strong> bdstreamhubiptv@gmail.com</p>
     </div>
 
   </div>
 
   <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuXvgpw24Shkrv8c_zhyZhUeGHkwJBzqSWjWh6YGlZG3yUtPP62eDU-9J8Pk5igopOaA/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxt5cexwd0P5y3swndsgk2WRxepX29_e-z5Y5pWgaIVuqOolHphlmkAOOVazPcOIqhzrA/exec";
 
   function formatNumber(num) {
     num = Number(num) || 0;
@@ -331,8 +333,14 @@
   function renderUI(data) {
     if (!data) return;
 
-    document.getElementById('appName').innerText = data.AppName || '';
-    document.getElementById('appLogo').src = data.AppLogo || '';
+    if (data.AppName) document.getElementById('appName').innerText = data.AppName;
+    
+    // ছবি লোড ফিক্স
+    if (data.AppLogo) {
+      const img = document.getElementById('appLogo');
+      img.src = data.AppLogo;
+      img.style.display = 'block';
+    }
 
     document.getElementById('tbAppName').innerText = data.AppName || '';
     document.getElementById('tbAPKVersion').innerText = data.APKVersion || '';
@@ -346,7 +354,7 @@
     document.getElementById('tbLastUpdate').innerText = formatRelativeDate(data.LastUpdate);
     document.getElementById('tbMODFeatures').innerText = data.MODFeatures || '';
 
-    // কাউন্ট আপডেট
+    // কাউন্ট রেন্ডারিং
     const todayVal = data.TodayDownloads !== undefined ? Number(data.TodayDownloads) : 0;
     const totalVal = data.TotalDownloads !== undefined ? Number(data.TotalDownloads) : 0;
 
@@ -365,13 +373,13 @@
   }
 
   async function loadAppData() {
-    // ১. আগের মেমোরি থেকে ডাটা দেখানো
+    // Local cache থেকে আগে ডাটা দেখানো
     const cached = localStorage.getItem('bdstreamhub_data');
     if (cached) {
       try { renderUI(JSON.parse(cached)); } catch(e){}
     }
 
-    // ২. সার্ভার থেকে নতুন ডাটা নিয়ে আপডেট করা
+    // Google Apps Script থেকে রিয়েলটাইম ডাটা ফেচ
     try {
       const res = await fetch(SCRIPT_URL);
       const data = await res.json();
@@ -382,24 +390,23 @@
     }
   }
 
-  // ডাউনলোড বাটনে ক্লিক
+  // ডাউনলোড বাটন ক্লিক হ্যান্ডলার
   document.getElementById('downloadBtn').addEventListener('click', function(e) {
-    e.preventDefault();
     const targetUrl = this.dataset.url;
 
-    // ১. স্ক্রিনে সাথে সাথে কাউন্ট বাড়িয়ে দেখানো
+    // ১. লোকাল UI-তে তাৎক্ষণিক কাউন্ট বাড়ানো
     let cached = JSON.parse(localStorage.getItem('bdstreamhub_data') || '{}');
     cached.TodayDownloads = (Number(cached.TodayDownloads) || 0) + 1;
     cached.TotalDownloads = (Number(cached.TotalDownloads) || 0) + 1;
     localStorage.setItem('bdstreamhub_data', JSON.stringify(cached));
     renderUI(cached);
 
-    // ২. ব্যাকগ্রাউন্ডে গুগল শিটে কাউন্ট পাঠানো
-    fetch(`${SCRIPT_URL}?action=download`, { mode: 'no-cors' })
-      .then(() => console.log('Saved to Google Sheet'))
+    // ২. গুগল শিটে আপডেট রিকোয়েস্ট পাঠানো
+    fetch(`${SCRIPT_URL}?action=download`, { method: 'GET', mode: 'no-cors' })
+      .then(() => console.log('Download count updated in Google Sheet'))
       .catch(err => console.error('Error saving download:', err));
 
-    // ৩. লিংকে নিয়ে যাওয়া
+    // ৩. রিডাইরেকশন নিশ্চিত করা
     if (targetUrl && targetUrl !== '#') {
       window.open(targetUrl, '_blank');
     }
@@ -435,7 +442,7 @@
       localStorage.setItem('bdstreamhub_data', JSON.stringify(cached));
       renderUI(cached);
 
-      fetch(`${SCRIPT_URL}?action=rate&rating=${score}`, { mode: 'no-cors' })
+      fetch(`${SCRIPT_URL}?action=rate&rating=${score}`, { method: 'GET', mode: 'no-cors' })
         .then(() => console.log('Rating saved'))
         .catch(err => console.error('Error saving rating:', err));
 
